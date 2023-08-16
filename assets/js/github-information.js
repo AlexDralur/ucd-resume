@@ -7,7 +7,7 @@ function userInformationHTML(user) {
     </h2>
     <div class="gh-content">
         <div class="gh-avatar">
-            <a href="${user.html_url} target="_blank">
+            <a href="${user.html_url}" target="_blank">
                 <img src="${user.avatar_url}" width="80" height="80" alt="${user.login}" />
             </a>
         </div>
@@ -38,6 +38,8 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
+    $("#gh-user-data").html("");
+    $("#gh-repo-data").html("");
     
     let username = $("#gh-username").val();
 
@@ -64,12 +66,13 @@ function fetchGitHubInformation(event) {
 
         }, function(errorResponse) {
             if(errorResponse.status === 404) {
-                $("gh-user-data").html(`<h2>No info found for user ${username}</div>`);
+                $("#gh-user-data").html(`<h2>No info found for user ${username}</h2>`);
             } else {
                 console.log(errorResponse);
-                $("gh-user-data").html(
-                    `<h2> Error: ${errorResponse.responseJSON.message}</h2>`);
+                $("#gh-user-data").html(
+                    `<h2>Error: ${errorResponse.responseJSON.message}</h2>`);
             }
         });
 }
 
+$(document).ready(fetchGitHubInformation);
